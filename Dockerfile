@@ -1,5 +1,5 @@
 FROM phusion/baseimage:0.9.17
-MAINTAINER pressrelations
+MAINTAINER accent
 EXPOSE 80 8500
 VOLUME ["/var/www", "/tmp/config"]
 
