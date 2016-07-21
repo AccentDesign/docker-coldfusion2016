@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+
+exec /opt/coldfusion2016/cfusion/bin/coldfusion start
