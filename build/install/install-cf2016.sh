@@ -3,14 +3,18 @@
 # Script based on https://forums.adobe.com/message/4727551
 
 cd /tmp
+
+# Get the coldfusion installer
 if [ ! -f "ColdFusion_2016_WWEJ_linux64.bin" ]
 then
-        wget https://s3-eu-west-1.amazonaws.com/accent-docker/ColdFusion_2016_WWEJ_linux64.bin
-        chmod 755 ColdFusion_2016_WWEJ_linux64.bin
+    wget https://s3-eu-west-1.amazonaws.com/accent-docker/ColdFusion_2016_WWEJ_linux64.bin
+    chmod 755 ColdFusion_2016_WWEJ_linux64.bin
 fi
 
+# Add user to run coldfusion
 useradd -c "user for colfusion" -M -G www-data coldfusion
 
+# Install
 /tmp/ColdFusion_2016_WWEJ_linux64.bin -f installer.profile
 
 # Disable admin security
@@ -21,6 +25,10 @@ useradd -c "user for colfusion" -M -G www-data coldfusion
 
 # Simulate a browser request on the admin UI to complete installation
 wget --delete-after http://localhost:8500/CFIDE/administrator/index.cfm?configServer=true
+
+# Set the default admin password
+chmod 755 set-admin-password.sh
+./set-admin-password.sh
 
 # Stop the CF server instance
 /opt/coldfusion2016/cfusion/bin/coldfusion stop

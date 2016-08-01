@@ -11,16 +11,26 @@ And run it with::
 
     docker run -d --name="mycf2016" -p 80:80 -p 8500:8500 -v /var/www:/var/www coldfusion2016
 
-Issues:
--------
+Admin Password Workaround
+-------------------------
 
-1. Password set in installer.properties still doesnt get picked up, so login to running container::
+Password set in installer.profile doesnt get picked up during the install, the following is an awful workaround.
 
-    docker exec -it mycf2016 bash
+The file `build/install/set-admin-password.sh` is copied to /tmp, contents::
 
-and reset password using::
+    #!/bin/bash
+
+    PASSWORD="Adm1n!12"
 
     cd /opt/coldfusion2016/cfusion/bin
-    run ./passwordreset.sh
 
-    ./coldfusion stop
+    expect -c '
+        spawn ./passwordreset.sh
+        expect {
+            "*?changing*" { send 1\r
+                            exp_continue }
+            "*?assword*" { send "'"$PASSWORD"'\r"
+                            exp_continue }
+        }'
+
+This runs during the install and sets the admin password to the above.
