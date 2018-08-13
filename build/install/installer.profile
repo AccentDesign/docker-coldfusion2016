@@ -15,7 +15,7 @@ SILENT_INSTALL_JNBRIDGE=false
 
 #Remote administrator component for server remote start/stop
 SILENT_INSTALL_ADMIN=true
-SILENT_INSTALL_SOLR=false
+SILENT_INSTALL_SOLR=true
 SILENT_INSTALL_PDFG=false
 
 #For Linux it would be as /opt/coldfusion2016 (Change it as per your path)
